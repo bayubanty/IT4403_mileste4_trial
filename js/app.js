@@ -7,17 +7,17 @@ let currentView = "search";
 let searchHistory = [];
 
 $(document).ready(function () {
-  // Load bookshelf from local JSON
+  
   $.getJSON("assets/google-books-placeholder.json", function (data) {
     bookshelfBooks = data.items.map((book, i) => normalizeBook(book, i));
     renderBookshelf();
   });
 
-  // Navigation
+  
   $("#searchTab").click(() => switchTab("search"));
   $("#bookshelfTab").click(() => switchTab("bookshelf"));
 
-  // Search
+  
   $("#searchBtn").click(() => {
     const term = $("#searchTerm").val().trim();
     if (!term) return;
@@ -35,21 +35,21 @@ $(document).ready(function () {
     fetchGoogleBooks(term);
   });
 
-  // Layout view toggle
+  
   $("#viewToggle").change(function () {
     currentLayout = $(this).val();
     renderBooks();
     renderBookshelf();
   });
 
-  // Book card click
+  
   $("#bookResults, #bookshelf").on("click", ".book-card", function () {
     const index = $(this).data("index");
     const book = currentView === "search" ? searchBooks[index] : bookshelfBooks[index];
     showDetails(book);
   });
 
-  // Back from detail view
+  
   $("#backBtn").click(() => {
     $("#detail-view").hide();
     $(".view").show();
